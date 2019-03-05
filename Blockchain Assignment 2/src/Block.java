@@ -7,21 +7,29 @@ public class Block
 	private String data;
 	private String hash;
 	private String prevhash;
-	public void sha(String input)
-	{
-	try 
-	{
-		
-	MessageDigest digest = MessageDigest.getInstance("SHA-256");
-	byte[] sha = digest.digest(input.getBytes());
-	System.out.println(sha);
+	public String sha(String input)
+	{	try
+		{
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");	        
+			byte[] hash = digest.digest(input.getBytes("UTF-8"));	        
+			/*StringBuffer hexString = new StringBuffer();
+			for (int i = 0; i < hash.length; i++)
+			{
+				String hex = Integer.toHexString(0xff & hash[i]);
+				hexString.append(hex);
+			}*/
+			String hashtext="";
+			for(int i=0;i<hash.length;i++)
+			{
+				String hexa=Integer.toHexString(0xff & hash[i]);
+				hashtext+=hexa;
+			}
+			return hashtext;
+		}
+		catch(Exception e) {
+		throw new RuntimeException(e);
+		}
 	}
-	catch(Exception ex)
-	{
-		throw new RuntimeException(ex);
-	}
-	}
-	
 	public int getIndex() {
 		return index;
 	}
@@ -57,7 +65,7 @@ public class Block
 		Block b=new Block();
 		Timestamp ts=b.getTimestamp();
 		System.out.println(ts);
-		String x="Hello";
-		b.sha(x);
+		String y="Test";
+		System.out.println(b.sha(y));
 	}
 }
