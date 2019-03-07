@@ -1,13 +1,54 @@
 import java.sql.Timestamp;
+import com.google.gson.*;
 import java.security.MessageDigest;
 public class Block
 {
+	//Variables
 	private int index;
 	private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	private String data;
 	private String hash;
 	private String prevhash;
-	public String sha(String input)
+	private Chain c=new Chain();
+	//Variables
+	public void PrintBlock()
+	{
+		String data=this.getData();
+		String hash=this.getHash();
+		String prevhash=this.getPrevhash();
+		Timestamp ts = this.getTimestamp();
+		int index=this.getIndex();
+		System.out.println("Data: " + data);
+		System.out.println("Hash: " +hash);
+		System.out.println("Previous Hash: " + prevhash);
+		System.out.println("Timestamp: " + ts);
+		System.out.println("Index: " + index);
+		System.out.println();
+	}
+	public Block(String data,Chain c)
+	{
+		if (c.blockchain.size()==0)
+		{
+			prevhash="0";
+			this.data=data;
+			setHash(data);
+			setTimestamp(timestamp);
+			this.setIndex(c.blockchain.size());
+			c.blockchain.add(this);
+			System.out.println();
+		}
+		else
+		{
+			prevhash=c.blockchain.get(c.blockchain.size()-1).getHash();
+			this.data=data;
+			setHash(data);
+			setTimestamp(timestamp);
+			this.setIndex(c.blockchain.size());
+			c.blockchain.add(this);
+			System.out.println();
+		}
+	}
+	public String HashBlock(String input)
 	{	try
 		{
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");	        
@@ -45,27 +86,16 @@ public class Block
 	public String getPrevhash() {
 		return prevhash;
 	}
-	public void setPrevhash(String prevhash) {
-		this.prevhash = prevhash;
-	}
 	public String getHash() {
 		return hash;
 	}
 	public void setHash(String hash) {
-		this.hash = hash;
+		this.hash = HashBlock(hash);
 	}
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
-	}
-	public static void main(String[] args)
-	{
-		Block b=new Block();
-		Timestamp ts=b.getTimestamp();
-		System.out.println(ts);
-		String y="Test";
-		System.out.println(b.sha(y));
 	}
 }
