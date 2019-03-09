@@ -8,7 +8,7 @@ public class Interface
 		c.Block("b");
 		c.Block("c");
 		c.PrintChain();
-		c.blockchain.get(0).MineBlock(4);
+		c.blockchain.get(0).MineBlock(3);
 
 	}
 }

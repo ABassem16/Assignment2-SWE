@@ -1,7 +1,15 @@
 import java.util.ArrayList;
+import java.sql.Timestamp;
 public class Chain 
 {
 	public ArrayList<Block> blockchain=new ArrayList<Block>();
+	public void PrintChain()
+	{
+		for(int i=0; i<this.blockchain.size();i++)
+		{
+			blockchain.get(i).PrintBlock();
+		}
+	}
 	public boolean validateblocks()
 	{
 		Block curr;
@@ -12,8 +20,8 @@ public class Chain
 			prev=blockchain.get(i-1);
 			curr.getData();
 			curr.setHash();
-			curr.getData();
-			curr.setHash();
+			prev.getData();
+			prev.setHash();
 			if(curr.getHash()!=blockchain.get(i).getHash())
 			{
 				System.out.println("Blockchain Not Valid!");
@@ -28,6 +36,31 @@ public class Chain
 		}
 		System.out.println("Validated\n");
 		return true;
+	}
+	public void Block(String data)
+	{
+		Block b=new Block();
+		Timestamp timestamp=new Timestamp(System.currentTimeMillis());
+		if (this.blockchain.size()==0)
+		{
+			b.setPrevhash("0");
+			b.setData(data);
+			b.setHash();
+			b.setTimestamp(timestamp);
+			b.setIndex(this.blockchain.size());
+			this.blockchain.add(b);
+			System.out.println();
+		}
+		else
+		{
+			b.setPrevhash(this.blockchain.get(this.blockchain.size()-1).getHash());
+			b.setData(data);
+			b.setHash();
+			b.setTimestamp(timestamp);
+			b.setIndex(this.blockchain.size());
+			this.blockchain.add(b);
+			System.out.println();
+		}
 	}
 
 }

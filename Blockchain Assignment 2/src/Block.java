@@ -1,5 +1,4 @@
 import java.sql.Timestamp;
-import com.google.gson.*;
 import java.security.MessageDigest;
 public class Block
 {
@@ -9,7 +8,7 @@ public class Block
 	private String data;
 	private String hash;
 	private String prevhash;
-	private Chain c=new Chain();
+	private int nonce;
 	//Variables
 	public void PrintBlock()
 	{
@@ -25,28 +24,18 @@ public class Block
 		System.out.println("Index: " + index);
 		System.out.println();
 	}
-	public Block(String data,Chain c)
+	public void MineBlock(int difficulty)
 	{
-		if (c.blockchain.size()==0)
+		String zeros = new String(new char[difficulty]).replace('\0', '0'); 
+		while(!this.hash.substring( 0, difficulty).equals(zeros))
 		{
-			prevhash="0";
-			this.data=data;
-			setHash(data);
-			setTimestamp(timestamp);
-			this.setIndex(c.blockchain.size());
-			c.blockchain.add(this);
-			System.out.println();
+			nonce ++;
+			setHash();
+			hash=getHash();
 		}
-		else
-		{
-			prevhash=c.blockchain.get(c.blockchain.size()-1).getHash();
-			this.data=data;
-			setHash(data);
-			setTimestamp(timestamp);
-			this.setIndex(c.blockchain.size());
-			c.blockchain.add(this);
-			System.out.println();
-		}
+		System.out.println("Block Signed.");
+		System.out.println("New Hash = " + this.hash);
+		System.out.println(nonce);
 	}
 	public String HashBlock(String input)
 	{	try
@@ -86,16 +75,26 @@ public class Block
 	public String getPrevhash() {
 		return prevhash;
 	}
+	public void setPrevhash(String prev)
+	{
+		this.prevhash=prev;
+	}
 	public String getHash() {
 		return hash;
 	}
-	public void setHash(String hash) {
-		this.hash = HashBlock(hash);
+	public void setHash() {
+		this.hash = HashBlock(this.data + this.prevhash + this.timestamp.toString() + this.nonce);
 	}
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+	public int getNonce() {
+		return nonce;
+	}
+	public void setNonce(int nonce) {
+		this.nonce = nonce;
 	}
 }
