@@ -4,12 +4,14 @@ public class Interface
 	public static void main(String[] args)
 	{
 		Chain c=new Chain();
-		c.Block("a");
-		c.Block("b");
-		c.Block("c");
+		c.Block("data");
+		c.Block("daaataa");
+		c.Block("daaaaataaa");
 		c.PrintChain();
 		c.blockchain.get(0).MineBlock(3);
-
+		c.blockchain.get(1).MineBlock(3);
+		c.blockchain.get(2).MineBlock(3);
+		c.validateblocks();
 	}
 }
 /*

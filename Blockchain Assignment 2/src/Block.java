@@ -9,6 +9,7 @@ public class Block
 	private String hash;
 	private String prevhash;
 	private int nonce;
+	private boolean mined=false;
 	//Variables
 	public void PrintBlock()
 	{
@@ -18,7 +19,7 @@ public class Block
 		Timestamp ts = this.getTimestamp();
 		int index=this.getIndex();
 		System.out.println("Data: " + data);
-		System.out.println("Hash: " +hash);
+		System.out.println("Hash: " + hash);
 		System.out.println("Previous Hash: " + prevhash);
 		System.out.println("Timestamp: " + ts);
 		System.out.println("Index: " + index);
@@ -33,9 +34,11 @@ public class Block
 			setHash();
 			hash=getHash();
 		}
+		
 		System.out.println("Block Signed.");
 		System.out.println("New Hash = " + this.hash);
 		System.out.println(nonce);
+		mined=true;
 	}
 	public String HashBlock(String input)
 	{	try
@@ -96,5 +99,11 @@ public class Block
 	}
 	public void setNonce(int nonce) {
 		this.nonce = nonce;
+	}
+	public boolean isMined() {
+		return mined;
+	}
+	public void setMined(boolean mined) {
+		this.mined = mined;
 	}
 }
