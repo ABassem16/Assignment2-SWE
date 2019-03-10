@@ -1,17 +1,56 @@
-
+import java.util.Scanner;
 public class Interface
 {
 	public static void main(String[] args)
 	{
-		Chain c=new Chain();
-		c.Block("data");
-		c.Block("daaataa");
-		c.Block("daaaaataaa");
-		c.PrintChain();
-		c.blockchain.get(0).MineBlock(3);
-		c.blockchain.get(1).MineBlock(3);
-		c.blockchain.get(2).MineBlock(3);
-		c.validateblocks();
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Add Number of Candidates");
+		int cand=scan.nextInt();
+		Vote v=new Vote();
+		int x=scan.nextInt();
+		for(int i=0;i<cand;i++)
+			{
+				Chain c=new Chain();
+				v.candidates.add(c);
+			}
+		while(true)
+		{
+			if(x==0)
+			{
+				break;
+			}
+			if(x==1)
+			{
+				System.out.println("Pick Your Candidate or end vote 0");
+				int vote=-1;
+				while(vote!=0)
+				{
+				vote=scan.nextInt();
+				if(vote>=cand || vote<0)
+				{
+					System.out.println("Invalid Choice");
+					break;
+				}
+				v.candidates.get(vote+1).Block(Integer.toString(vote));
+				}
+			}
+			if(x==2)
+			{
+				for(int i=0;i<v.candidates.size();i++)
+				{
+					int max=v.candidates.get(i).blockchain.get(0).getIndex();
+					for(int j=1;j<v.candidates.get(i).blockchain.get(j).getIndex();j++)
+					{
+						if(max<v.candidates.get(i).blockchain.get(j).getIndex())
+						{
+							max=v.candidates.get(i).blockchain.get(j).getIndex();
+						}
+					}
+					
+				}
+			}
+		}
+		scan.close();
 	}
 }
 /*

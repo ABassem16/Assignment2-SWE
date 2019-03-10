@@ -1,4 +1,5 @@
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Base64;
 
 public class Vote
@@ -6,6 +7,7 @@ public class Vote
 	public String voterpublickey;
 	private String choice;
 	private String Signature;
+	protected ArrayList<Chain> candidates=new ArrayList<>();
 	private Block b=new Block();
 	private static int voteid;
 	protected Keys k=new Keys();
@@ -41,15 +43,15 @@ public class Vote
 	public String getSignature() {
 		return Signature;
 	}
-	public void setSignature(String signature) {
-		Signature = signature;
+	public void setSignature() {
+		Signature = generateSignature();
 	}
-	public Vote(String choice,String sign,int voteid)
+	public Vote()
 	{
 		this.voterpublickey=Base64.getEncoder().encodeToString(k.pubkey.getEncoded());
-        this.choice=choice;
         this.voteid++;
-        this.Signature=sign;
+        setSignature();
+        this.Signature=getSignature();
 	}
 	public static int getVoteid() {
 		return voteid;
@@ -57,10 +59,11 @@ public class Vote
 	public static void setVoteid(int voteid) {
 		Vote.voteid = voteid;
 	}
-	public void generateSignature()
+	public String generateSignature()
 	{
 		String data =voterpublickey+ Integer.toString(voteid);
 		data=HashBlock(data);
+		return data;
 	}
 	public Block getB() {
 		return b;

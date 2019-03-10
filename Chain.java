@@ -48,8 +48,8 @@ public class Chain
 			b.setHash();
 			b.setTimestamp(timestamp);
 			b.setIndex(this.blockchain.size());
+			b.MineBlock(2);
 			this.blockchain.add(b);
-			System.out.println();
 		}
 		else
 		{
@@ -58,8 +58,8 @@ public class Chain
 			b.setHash();
 			b.setTimestamp(timestamp);
 			b.setIndex(this.blockchain.size());
+			b.MineBlock(2);
 			this.blockchain.add(b);
-			System.out.println();
 		}
 	}
 
